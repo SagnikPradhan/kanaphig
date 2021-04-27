@@ -194,7 +194,6 @@ __metadata:
     "@types/node": ^14.14.41
     lodash.defaultsdeep: ^4.6.1
     typedoc: ^0.20.36
-    typedoc-plugin-markdown: ^3.7.2
     typescript: ^4.2.4
     zod: next
   peerDependencies:
@@ -366,17 +365,6 @@ resolve@^1.1.6:
   version: 0.12.10
   resolution: "typedoc-default-themes@npm:0.12.10"
   checksum: 3a420c405b00122c20018762ce145186219f26651a051216b1d4dafa1b3756a7e47290bf27898d3e2769af3a0da44591e3c93268c2a6503fcf28eb8b0f32980b
-  languageName: node
-  linkType: hard
-
-"typedoc-plugin-markdown@npm:^3.7.2":
-  version: 3.7.2
-  resolution: "typedoc-plugin-markdown@npm:3.7.2"
-  dependencies:
-    handlebars: ^4.7.7
-  peerDependencies:
-    typedoc: ">=0.20.0"
-  checksum: 77f85b8fff2b936d9c258c45c96a5f054c8c1bfbdf97ed0ff44dca870f0dcf16bb85724a8e2ca949c6008ba279695159a97d6538c79aad689df08e173e7ffff1
   languageName: node
   linkType: hard
 

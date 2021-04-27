@@ -19,7 +19,7 @@ var _dirty, _schema, _envConfig, _configs, _parsedConfig;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Configuration = void 0;
 const lodash_defaultsdeep_1 = __importDefault(require("lodash.defaultsdeep"));
-/** Main Configuration Class */
+/** Configuration manager */
 class Configuration {
     /**
      * Creates a new configuration manager
@@ -64,7 +64,7 @@ class Configuration {
      * Hook up environment variables to your configuration
      *
      * @param config - ENV Declaration configuration
-     * @returns Configuration Manager
+     * @returns Configuration manager
      */
     env(config) {
         const recursivelyCreateEnvConfig = (config, target = __classPrivateFieldGet(this, _envConfig)) => {

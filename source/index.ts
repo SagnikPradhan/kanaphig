@@ -27,7 +27,7 @@ export type EnvDeclaration<Prop> = Prop extends string
   ? { $env: string }
   : { $env: string; $transformer: (value: string) => Prop };
 
-/** Main Configuration Class */
+/** Configuration manager */
 export class Configuration<
   Shape extends z.ZodRawShape,
   Schema extends z.ZodObject<Shape>,
@@ -90,7 +90,7 @@ export class Configuration<
    * Hook up environment variables to your configuration
    *
    * @param config - ENV Declaration configuration
-   * @returns Configuration Manager
+   * @returns Configuration manager
    */
   env(config: EnvConfig<Config>) {
     const recursivelyCreateEnvConfig = (
