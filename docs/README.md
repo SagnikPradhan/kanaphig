@@ -55,4 +55,4 @@ Configure your configuration
 
 Returns configuration handler
 
-Defined in: [index.ts:64](https://github.com/SagnikPradhan/kanaphig/blob/fcac9fc/source/index.ts#L64)
+Defined in: [index.ts:64](https://github.com/SagnikPradhan/kanaphig/blob/efd2d6e/source/index.ts#L64)
