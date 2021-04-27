@@ -46,9 +46,9 @@ Get a configuration property
 
 **Returns:** *PropertyType*<S, P\>
 
-Defined in: [index.ts:46](https://github.com/SagnikPradhan/kanaphig/blob/fcac9fc/source/index.ts#L46)
+Defined in: [index.ts:46](https://github.com/SagnikPradhan/kanaphig/blob/405e9aa/source/index.ts#L46)
 
-Defined in: [index.ts:46](https://github.com/SagnikPradhan/kanaphig/blob/fcac9fc/source/index.ts#L46)
+Defined in: [index.ts:46](https://github.com/SagnikPradhan/kanaphig/blob/405e9aa/source/index.ts#L46)
 
 ___
 
@@ -83,9 +83,9 @@ Set a configuration property
 
 **Returns:** [*Handler*](handler.md)<S\>
 
-Defined in: [index.ts:35](https://github.com/SagnikPradhan/kanaphig/blob/fcac9fc/source/index.ts#L35)
+Defined in: [index.ts:35](https://github.com/SagnikPradhan/kanaphig/blob/405e9aa/source/index.ts#L35)
 
-Defined in: [index.ts:35](https://github.com/SagnikPradhan/kanaphig/blob/fcac9fc/source/index.ts#L35)
+Defined in: [index.ts:35](https://github.com/SagnikPradhan/kanaphig/blob/405e9aa/source/index.ts#L35)
 
 ___
 
@@ -103,6 +103,6 @@ Validate the configuration
 
 **Returns:** [*Handler*](handler.md)<S\>
 
-Defined in: [index.ts:55](https://github.com/SagnikPradhan/kanaphig/blob/fcac9fc/source/index.ts#L55)
+Defined in: [index.ts:55](https://github.com/SagnikPradhan/kanaphig/blob/405e9aa/source/index.ts#L55)
 
-Defined in: [index.ts:55](https://github.com/SagnikPradhan/kanaphig/blob/fcac9fc/source/index.ts#L55)
+Defined in: [index.ts:55](https://github.com/SagnikPradhan/kanaphig/blob/405e9aa/source/index.ts#L55)
