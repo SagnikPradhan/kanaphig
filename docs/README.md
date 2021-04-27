@@ -2,57 +2,45 @@ kanaphig
 
 # kanaphig
 
-> Simple and concise typed configuration.
-
-**`example`** 
-```ts
- import { config } from "kanaphig"
-
- const configuration = config({
-   port: { default: "8080", env: "PORT", validate: z.string() },
-   discord: {
-     token: { env: "DISCORD_TOKEN", validate: z.string() }
-   }
- })
-
- configuration.set("port", "8080")
- configuration.validate()
-
- configuration.get("discord.token")
-```
-
 ## Table of contents
 
-### Interfaces
+### Classes
 
-- [Handler](interfaces/handler.md)
+- [Configuration](classes/configuration.md)
 
-### Functions
+### Type aliases
 
-- [config](README.md#config)
+- [EnvConfig](README.md#envconfig)
+- [EnvDeclaration](README.md#envdeclaration)
 
-## Functions
+## Type aliases
 
-### config
+### EnvConfig
 
-▸ **config**<S\>(`schema`: S): [*Handler*](interfaces/handler.md)<S\>
+Ƭ **EnvConfig**<C\>: { [K in keyof C]?: C[K] extends Record<string, unknown\> ? EnvConfig<C[K]\> : EnvDeclaration<C[K]\>}
 
-Configure your configuration
+Environmental variable declaration specific config
 
 #### Type parameters:
 
-| Name | Type |
-| :------ | :------ |
-| `S` | Schema |
+| Name |
+| :------ |
+| `C` |
 
-#### Parameters:
+Defined in: [index.ts:19](https://github.com/SagnikPradhan/kanaphig/blob/e6cd496/source/index.ts#L19)
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `schema` | S | Schema for configuration |
+___
 
-**Returns:** [*Handler*](interfaces/handler.md)<S\>
+### EnvDeclaration
 
-Returns configuration handler
+Ƭ **EnvDeclaration**<Prop\>: Prop *extends* *string* ? { `$env`: *string*  } : { `$env`: *string* ; `$transformer`: (`value`: *string*) => Prop  }
 
-Defined in: [index.ts:64](https://github.com/SagnikPradhan/kanaphig/blob/405e9aa/source/index.ts#L64)
+Environement variable declaration
+
+#### Type parameters:
+
+| Name |
+| :------ |
+| `Prop` |
+
+Defined in: [index.ts:26](https://github.com/SagnikPradhan/kanaphig/blob/e6cd496/source/index.ts#L26)

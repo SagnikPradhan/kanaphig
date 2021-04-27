@@ -1,53 +1,55 @@
-/**
- * > Simple and concise typed configuration.
- *
- * @example
- * ```ts
- *  import { config } from "kanaphig"
- *
- *  const configuration = config({
- *    port: { default: "8080", env: "PORT", validate: z.string() },
- *    discord: {
- *      token: { env: "DISCORD_TOKEN", validate: z.string() }
- *    }
- *  })
- *
- *  configuration.set("port", "8080")
- *  configuration.validate()
- *
- *  configuration.get("discord.token")
- * ```
- *
- * @module
- */
-import { Path, Schema, PropertyType, PropertyDefinition } from "./type";
-export interface Handler<S extends Schema> {
+import { z } from "zod";
+import { Path, PathValue } from "./type";
+/** Creates deeply optional object */
+declare type DeepPartial<O> = {
+    [K in keyof O]?: O[K] extends Record<string, unknown> ? DeepPartial<O[K]> : O[K];
+};
+/** Environmental variable declaration specific config */
+export declare type EnvConfig<C> = {
+    [K in keyof C]?: C[K] extends Record<string, unknown> ? EnvConfig<C[K]> : EnvDeclaration<C[K]>;
+};
+/** Environement variable declaration */
+export declare type EnvDeclaration<Prop> = Prop extends string ? {
+    $env: string;
+} : {
+    $env: string;
+    $transformer: (value: string) => Prop;
+};
+/** Main Configuration Class */
+export declare class Configuration<Shape extends z.ZodRawShape, Schema extends z.ZodObject<Shape>, Config extends z.infer<Schema>> {
+    #private;
     /**
-     * Set a configuration property
+     * Creates a new configuration manager
      *
-     * @param path - Path of your configuration value
-     * @param value - Value
-     * @returns Handler
+     * @param schema - Zod schema
      */
-    set: <P extends Path<S, PropertyDefinition> & string>(path: P, value: PropertyType<S, P>) => Handler<S>;
+    constructor(schema: Schema);
     /**
-     * Get a configuration property
+     * Validates your current configuration
      *
-     * @param path - Path of your configuration value
-     * @returns - Value
+     * @returns Configuration manager
      */
-    get: <P extends Path<S, PropertyDefinition> & string>(path: P) => PropertyType<S, P>;
+    validate(): this;
     /**
-     * Validate the configuration
+     * Get a cetain property from the configuration
      *
-     * @returns - Handler
+     * @param path - Path to property
+     * @returns Value of the property
      */
-    validate: () => Handler<S>;
+    get<P extends Path<Config> & string>(path: P): PathValue<Config, P>;
+    /**
+     * Hook up environment variables to your configuration
+     *
+     * @param config - ENV Declaration configuration
+     * @returns Configuration Manager
+     */
+    env(config: EnvConfig<Config>): this;
+    /**
+     * Manually add new configuration
+     *
+     * @param config - Deeply partial configuration
+     * @returns Configuration manager
+     */
+    set(config: DeepPartial<Config>): this;
 }
-/**
- * Configure your configuration
- *
- * @param schema - Schema for configuration
- * @returns Returns configuration handler
- */
-export declare function config<S extends Schema>(schema: S): Handler<S>;
+export {};
