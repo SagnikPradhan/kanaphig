@@ -2,19 +2,7 @@ kanaphig
 
 # kanaphig
 
-## Table of contents
-
-### Functions
-
-- [config](README.md#config)
-
-## Functions
-
-### config
-
-▸ **config**<S\>(`schema`: S): *object*
-
-Configure your configuration
+> Simple and concise typed configuration.
 
 **`example`** 
 ```ts
@@ -26,7 +14,30 @@ Configure your configuration
      token: { env: "DISCORD_TOKEN", validate: z.string() }
    }
  })
+
+ configuration.set("port", "8080")
+ configuration.validate()
+
+ configuration.get("discord.token")
 ```
+
+## Table of contents
+
+### Interfaces
+
+- [Handler](interfaces/handler.md)
+
+### Functions
+
+- [config](README.md#config)
+
+## Functions
+
+### config
+
+▸ **config**<S\>(`schema`: S): [*Handler*](interfaces/handler.md)<S\>
+
+Configure your configuration
 
 #### Type parameters:
 
@@ -40,14 +51,8 @@ Configure your configuration
 | :------ | :------ | :------ |
 | `schema` | S | Schema for configuration |
 
-**Returns:** *object*
-
-| Name | Type |
-| :------ | :------ |
-| `get` | <P\>(`path`: P) => *PropertyType*<S, P\> |
-| `set` | <P\>(`path`: P, `value`: *PropertyType*<S, P\>) => { set: <P extends Path<S, PropertyDefinition<ZodTypeAny\>\> & string\>(path: P, value: PropertyType<S, P\>) =\> ...; get: <P extends Path<...\> & string\>(path: P) =\> PropertyType<...\>; validate: () =\> ...; } |
-| `validate` | () => { set: <P extends Path<S, PropertyDefinition<ZodTypeAny\>\> & string\>(path: P, value: PropertyType<S, P\>) =\> ...; get: <P extends Path<...\> & string\>(path: P) =\> PropertyType<...\>; validate: () =\> ...; } |
+**Returns:** [*Handler*](interfaces/handler.md)<S\>
 
 Returns configuration handler
 
-Defined in: index.ts:22
+Defined in: [index.ts:64](https://github.com/SagnikPradhan/kanaphig/blob/fcac9fc/source/index.ts#L64)
