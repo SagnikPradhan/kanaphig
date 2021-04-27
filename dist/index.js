@@ -1,99 +1,108 @@
 "use strict";
-/**
- * > Simple and concise typed configuration.
- *
- * @example
- * ```ts
- *  import { config } from "kanaphig"
- *
- *  const configuration = config({
- *    port: { default: "8080", env: "PORT", validate: z.string() },
- *    discord: {
- *      token: { env: "DISCORD_TOKEN", validate: z.string() }
- *    }
- *  })
- *
- *  configuration.set("port", "8080")
- *  configuration.validate()
- *
- *  configuration.get("discord.token")
- * ```
- *
- * @module
- */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.config = void 0;
-const zod_1 = require("zod");
-/**
- * Configure your configuration
- *
- * @param schema - Schema for configuration
- * @returns Returns configuration handler
- */
-function config(schema) {
-    const config = extractDefaultsAlongWithEnv(schema);
-    const handler = {
-        set: (path, value) => {
-            const keys = path.split(".");
-            const lastKey = keys.pop();
-            const object = keys.reduce((object, key) => typeof object[key] !== "object" ? object : object[key], config);
-            if (lastKey && object)
-                object[lastKey] = value;
-            return handler;
-        },
-        get: (path) => {
-            const keys = path.split(".");
-            return keys.reduce((result, key) => typeof result === "object" && result !== null
-                ? result[key]
-                : result, config);
-        },
-        validate: () => {
-            const internalValidateFn = (schema, config, path = "") => {
-                if (typeof config !== "object")
-                    throw new Error("Recieved primitive in internal validate function");
-                for (const key in config) {
-                    const keyPath = path + key;
-                    const propSchema = schema[key];
-                    const value = config[key];
-                    if (propSchema === undefined)
-                        throw new Error(`Unknown property ${keyPath}`);
-                    else if (isPropertyDefinition(propSchema)) {
-                        const result = propSchema.validate.safeParse(value);
-                        if (result.success === false)
-                            throw new Error(`Invalid property ${keyPath}`);
-                    }
-                    else
-                        internalValidateFn(propSchema, value, keyPath + ".");
-                }
-            };
-            internalValidateFn(schema, config);
-            return handler;
-        },
-    };
-    return handler;
-}
-exports.config = config;
-/**
- * Checks if the value is a schema or a property definition
- *
- * @param value - Value
- * @returns Boolean
- */
-const isPropertyDefinition = (value) => value["validate"] instanceof zod_1.z.ZodType;
-/**
- * Extracts defaults from the schema and overrides with environment variables
- *
- * @param schema - Schema
- * @returns Record of defaults
- */
-const extractDefaultsAlongWithEnv = (schema) => {
-    return Object.fromEntries(Object.entries(schema).map(([key, value]) => {
-        if (typeof value === "object")
-            if (isPropertyDefinition(value))
-                return [key, process.env[value["env"] || ""] || value["default"]];
-            else
-                return [key, extractDefaultsAlongWithEnv(value)];
-        else
-            throw new Error("Extract defaults recieved primitive");
-    }));
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, privateMap, value) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to set private field on non-instance");
+    }
+    privateMap.set(receiver, value);
+    return value;
 };
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, privateMap) {
+    if (!privateMap.has(receiver)) {
+        throw new TypeError("attempted to get private field on non-instance");
+    }
+    return privateMap.get(receiver);
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var _dirty, _schema, _envConfig, _configs, _parsedConfig;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Configuration = void 0;
+const lodash_defaultsdeep_1 = __importDefault(require("lodash.defaultsdeep"));
+/** Main Configuration Class */
+class Configuration {
+    /**
+     * Creates a new configuration manager
+     *
+     * @param schema - Zod schema
+     */
+    constructor(schema) {
+        _dirty.set(this, false);
+        _schema.set(this, void 0);
+        _envConfig.set(this, {});
+        _configs.set(this, [__classPrivateFieldGet(this, _envConfig)]);
+        _parsedConfig.set(this, {});
+        __classPrivateFieldSet(this, _schema, schema);
+    }
+    /**
+     * Validates your current configuration
+     *
+     * @returns Configuration manager
+     */
+    validate() {
+        __classPrivateFieldSet(this, _parsedConfig, __classPrivateFieldGet(this, _schema).parse(lodash_defaultsdeep_1.default({}, ...__classPrivateFieldGet(this, _configs).reverse())));
+        __classPrivateFieldSet(this, _dirty, false);
+        return this;
+    }
+    /**
+     * Get a cetain property from the configuration
+     *
+     * @param path - Path to property
+     * @returns Value of the property
+     */
+    get(path) {
+        if (!__classPrivateFieldGet(this, _dirty))
+            return path
+                .split(".")
+                .reduce((acc, key) => typeof acc === "object" && acc !== null
+                ? acc[key]
+                : acc, __classPrivateFieldGet(this, _parsedConfig));
+        else
+            throw new Error("Not validated configuration");
+    }
+    /**
+     * Hook up environment variables to your configuration
+     *
+     * @param config - ENV Declaration configuration
+     * @returns Configuration Manager
+     */
+    env(config) {
+        const recursivelyCreateEnvConfig = (config, target = __classPrivateFieldGet(this, _envConfig)) => {
+            const isObject = (object) => typeof object === "object" && object !== null;
+            for (const [key, value] of Object.entries(config)) {
+                if (isObject(value)) {
+                    const env = value["$env"];
+                    const transformer = value["$transformer"];
+                    if (typeof env === "string") {
+                        const environmentVariable = process.env[env];
+                        target[key] =
+                            typeof transformer === "function"
+                                ? transformer(environmentVariable)
+                                : environmentVariable;
+                    }
+                    else {
+                        if (!isObject(target[key]))
+                            target[key] = {};
+                        recursivelyCreateEnvConfig(value, target[key]);
+                    }
+                }
+            }
+        };
+        recursivelyCreateEnvConfig(config);
+        __classPrivateFieldSet(this, _dirty, true);
+        return this;
+    }
+    /**
+     * Manually add new configuration
+     *
+     * @param config - Deeply partial configuration
+     * @returns Configuration manager
+     */
+    set(config) {
+        __classPrivateFieldGet(this, _configs).push(config);
+        __classPrivateFieldSet(this, _dirty, true);
+        return this;
+    }
+}
+exports.Configuration = Configuration;
+_dirty = new WeakMap(), _schema = new WeakMap(), _envConfig = new WeakMap(), _configs = new WeakMap(), _parsedConfig = new WeakMap();
