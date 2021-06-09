@@ -1,65 +1,25 @@
 # Kanaphig
 
+> **Disclaimer** API can change at any moment. Do not use it for production.
+
 > 🔩 Simple and concise typed configuration manager
 
 - [Github Repository](https://github.com/sagnikpradhan/kanaphig)
 - [Documentation](https://sagnikpradhan.github.io/kanaphig)
 
-## Install
-
-```bash
-# Peer dependency
-yarn add zod@next
-
-# Add Kanaphig itself
-yarn add kanaphig
-# OR
-yarn add kanaphig@sagnikpradhan/kanaphig
-```
-
-## Example
-
-```ts
-import { Configuration } from "kanaphig";
-import { z } from "zod";
-
-process.env["PORT"] = "9090";
-process.env["DISCORD_TOKEN"] = "NOT ENV TOKEN";
-
-const configuration = new Configuration(
-  z.object({
-    port: z.number().default(8080),
-    discord: z.object({ token: z.string() }),
-  })
-);
-
-configuration.env({
-  port: { $env: "PORT", $transformer: Number },
-  discord: { token: { $env: "DISCORD_TOKEN" } },
-});
-
-configuration.set({
-  discord: { token: "NOT FIRST SET TOKEN" },
-});
-
-configuration.set({
-  discord: { token: "..." },
-});
-
-configuration.validate();
-
-console.log(configuration.get("discord.token"), "...");
-console.log(configuration.get("port"), 9090);
-```
-
 ## License
 
-```
-Copyright 2021 Sagnik Pradhan
+<details>
+  <summary>
+    MIT License
+  </summary>
+  
+    Copyright 2021 Sagnik Pradhan
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-```
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+</details>
