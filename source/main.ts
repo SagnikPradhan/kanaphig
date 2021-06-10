@@ -1,12 +1,21 @@
+import { extractEnvironmentVariables } from "./library/environment-variables";
 import { Schema, Structure } from "./library/types/schema";
+import { parseUserConfigurationFile } from "./library/user-configuration-file";
 
 /** Kanaphig options */
-export interface KanaphigOptions<UserSchema extends Schema> {
-  schema: UserSchema;
-  configFile?: string;
+export interface KanaphigOptions {
+  configurationFile?: string;
 }
 
-/** Initialize configuration */
-export default function kanaphig<UserSchema extends Schema>(
-  options: KanaphigOptions<UserSchema>
-): Structure<UserSchema> {}
+export function kanaphig<UserSchema extends Schema>(
+  schema: UserSchema,
+  { configurationFile }: KanaphigOptions = {}
+): Structure<UserSchema> {
+  const userConfiguration = configurationFile
+    ? parseUserConfigurationFile(configurationFile)
+    : {};
+
+  const environmentConfiguration = extractEnvironmentVariables(schema);
+
+  return {} as Structure<UserSchema>;
+}

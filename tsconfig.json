@@ -5,9 +5,7 @@
     "lib": ["es2020"],
 
     "declaration": true,
-
-    "outDir": "dist",
-    "rootDir": "source",
+    "sourceMap": true,
 
     "strict": true,
 
@@ -19,12 +17,11 @@
     "noPropertyAccessFromIndexSignature": true,
 
     "moduleResolution": "node",
+    "noEmit": true,
 
     "esModuleInterop": true,
 
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-  },
-
-  "exclude": ["./example/*", "./dist/*", "node_modules"]
+  }
 }

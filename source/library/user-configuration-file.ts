@@ -35,16 +35,15 @@ export function parseUserConfigurationFile(filePath: string) {
     ext === ".json" ? JSON.parse(configFile) : yaml.load(configFile);
 
   // Make sure the parsed data is an object
-  if (isObject(parsedConfig))
-    throw new KanaphigError("Expected an object in configuration file", {
-      path: resolvedPath,
-    });
+  if (isObject(parsedConfig)) return parsedConfig;
 
-  return parsedConfig;
+  throw new KanaphigError("Expected an object in configuration file", {
+    path: resolvedPath,
+  });
 }
 
 const isAllowedExtension = (ext: string) =>
   [".yml", ".yaml", ".json"].includes(ext);
 
 const isObject = (data: unknown): data is RecursiveObject<unknown> =>
-  typeof data !== "object" || Array.isArray(data) || data === null;
+  typeof data === "object" && !Array.isArray(data) && data !== null;
