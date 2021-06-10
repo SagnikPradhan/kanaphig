@@ -1,6 +1,5 @@
-import { extractEnvironmentVariables } from "./library/environment-variables";
-import { Schema, Structure } from "./library/types/schema";
-import { parseUserConfigurationFile } from "./library/user-configuration-file";
+import { flatten } from "./library/flatten";
+import { isSchemaDescription, Schema, Structure } from "./library/types/schema";
 
 /** Kanaphig options */
 export interface KanaphigOptions {
@@ -11,11 +10,10 @@ export function kanaphig<UserSchema extends Schema>(
   schema: UserSchema,
   { configurationFile }: KanaphigOptions = {}
 ): Structure<UserSchema> {
-  const userConfiguration = configurationFile
-    ? parseUserConfigurationFile(configurationFile)
-    : {};
-
-  const environmentConfiguration = extractEnvironmentVariables(schema);
+  console.log({
+    flattened: flatten({ object: schema, isEndNode: isSchemaDescription }),
+    configurationFile,
+  });
 
   return {} as Structure<UserSchema>;
 }

@@ -1,4 +1,4 @@
-import { RecursiveObject } from "./util";
+import { RecursiveObject } from "../utils/type";
 
 interface ExtendedSchemaDescription<T> {
   parser: Parser<T>;
