@@ -1,22 +1,23 @@
-import { kanaphig } from "kanaphig";
+import { kanaphig, k } from "kanaphig";
 
 process.env["PLATFORM_CLIENT_ID"] = "Client ID";
 process.env["PLATFORM_CLIENT_TOKEN"] = "Client Token";
 
 console.log(
-  kanaphig(
-    {
-      port: { env: "PORT", parser: Number },
+  kanaphig({
+    schema: {
+      port: k({ env: "PORT", parser: Number }),
 
       platform: {
-        version: Number,
+        version: k(Number),
 
         client: {
-          id: { env: "PLATFORM_CLIENT_ID", parser: String },
-          token: { env: "PLATFORM_CLIENT_TOKEN", parser: String },
+          id: k({ env: "PLATFORM_CLIENT_ID", parser: String }),
+          token: k({ env: "PLATFORM_CLIENT_TOKEN", parser: String }),
         },
       },
     },
-    { configurationFile: "./example.yml" }
-  )
+
+    configurationFile: "./example.yml",
+  })("platform.client.id")
 );
