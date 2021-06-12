@@ -16,19 +16,23 @@ export function transformConfiguration(
 ) {
   const configuration = {} as Record<string, unknown>;
 
-  for (const configurationKey in flattenedConfiguration) {
-    if (configurationKey in flattenedSchema) {
-      const value = flattenedConfiguration[configurationKey];
-      const schema = flattenedSchema[configurationKey]!;
-      const parser = typeof schema === "object" ? schema.parser : schema;
-      configuration[configurationKey] = parser(value);
+  for (const [schemaKey, schema] of Object.entries(flattenedSchema)) {
+    if (schemaKey in flattenedConfiguration) {
+      const value = flattenedConfiguration[schemaKey];
+      const parser = typeof schema === "function" ? schema : schema.parser;
 
-      continue;
-    }
-
-    throw new KanaphigError(`Unknown property ${configurationKey}`, {
-      config: flattenedConfiguration,
-    });
+      try {
+        configuration[schemaKey] = parser(value);
+      } catch (error) {
+        throw new KanaphigError(
+          `Error transforming ${schemaKey} - ${error.message}`,
+          { error }
+        );
+      }
+    } else
+      throw new KanaphigError(`Expected ${schemaKey} to be set`, {
+        configuration: flattenedConfiguration,
+      });
   }
 
   return configuration;

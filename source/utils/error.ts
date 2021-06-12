@@ -20,7 +20,5 @@ export default class KanaphigError extends Error {
     this.name = "KanaphigError";
     this.description = description;
     this.additionalProperties = additionalProperties;
-
-    Error.captureStackTrace(this);
   }
 }
