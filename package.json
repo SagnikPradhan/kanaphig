@@ -1,33 +1,41 @@
 {
   "name": "kanaphig",
   "version": "1.1.0",
-  "author": "Sagnik Pradhan",
-  "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "./dist",
     "./readme.md"
   ],
+  "workspaces": [
+    "./example"
+  ],
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
-    "doc": "typedoc source/index.ts --out docs",
-    "example": "ts-node example.ts"
+    "example": "yarn workspace example start"
   },
   "dependencies": {
     "js-yaml": "^4.1.0"
   },
+  "peerDependencies": {
+    "dotenv": "*"
+  },
+  "peerDependenciesMeta": {
+    "dotenv": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@types/js-yaml": "^4.0.1",
-    "@types/lodash": "^4.14.170",
     "@types/node": "^14.14.41",
     "@wessberg/rollup-plugin-ts": "^1.3.14",
+    "dotenv": "^10.0.0",
     "rollup": "^2.51.1",
     "rollup-plugin-clean": "^1.0.0",
     "rollup-plugin-terser": "^7.0.2",
-    "ts-node": "^10.0.0",
-    "typedoc": "^0.20.36",
     "typescript": "^4.3.2"
-  }
+  },
+  "author": "Sagnik Pradhan",
+  "license": "MIT"
 }
