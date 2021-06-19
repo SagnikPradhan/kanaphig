@@ -3,9 +3,9 @@ import yaml from "js-yaml";
 import path from "path";
 import fs from "fs";
 
-import KanaphigError from "../utils/error";
-import { isNotObject, isObject } from "../utils/basic";
-import { flatten } from "../utils/flatten";
+import KanaphigError from "../../../utils/error";
+import { isNotObject, isObject } from "../../../utils/basic";
+import { flatten } from "../../../utils/flatten";
 
 export function extractConfig(filePath: string) {
   const { ext } = path.parse(filePath);

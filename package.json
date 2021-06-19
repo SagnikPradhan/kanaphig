@@ -19,10 +19,14 @@
     "js-yaml": "^4.1.0"
   },
   "peerDependencies": {
-    "dotenv": "*"
+    "dotenv": "*",
+    "zod": "*"
   },
   "peerDependenciesMeta": {
     "dotenv": {
+      "optional": true
+    },
+    "zod": {
       "optional": true
     }
   },
@@ -34,7 +38,8 @@
     "rollup": "^2.51.1",
     "rollup-plugin-clean": "^1.0.0",
     "rollup-plugin-terser": "^7.0.2",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.4",
+    "zod": "^3.2.0"
   },
   "author": "Sagnik Pradhan",
   "license": "MIT"

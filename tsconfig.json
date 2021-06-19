@@ -23,5 +23,7 @@
 
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+
+  "include": ["source"]
 }

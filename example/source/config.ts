@@ -1,20 +1,26 @@
-import { kanaphig, k } from "kanaphig";
+import { kanaphig, kzod } from "kanaphig";
+
 import { z } from "zod";
 
 export const config = kanaphig({
   schema: {
-    port: k({
+    port: kzod({
       env: "PORT",
-      parser: (v) => z.number().nonnegative().parse(Number(v)),
+      parser: z.number().nonnegative(),
     }),
 
     platform: {
-      version: k((v) => z.number().nonnegative().parse(Number(v))),
+      version: kzod(z.number().nonnegative()),
 
       client: {
-        id: k({ env: "PLATFORM_CLIENT_ID", parser: z.string().parse }),
-        token: k({ env: "PLATFORM_CLIENT_TOKEN", parser: z.string().parse }),
+        id: kzod({ env: "PLATFORM_CLIENT_ID", parser: z.string() }),
+        token: kzod({ env: "PLATFORM_CLIENT_TOKEN", parser: z.string() }),
       },
+
+      configKey: kzod({
+        env: "PLATFORM_CONFIG_KEY",
+        parser: z.object({ users: z.array(z.string()) }),
+      }),
     },
   },
 

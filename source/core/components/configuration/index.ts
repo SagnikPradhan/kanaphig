@@ -1,14 +1,5 @@
-import { Schema, SchemaDescription } from "../types/core";
-import KanaphigError from "./error";
-
-export const Kanaphig = Symbol("Kanaphig");
-
-export function isSchemaDescription(
-  value: Schema | SchemaDescription
-): value is SchemaDescription {
-  if (value["kanaphig"] === Kanaphig) return true;
-  return false;
-}
+import { SchemaDescription } from "../schema/type";
+import KanaphigError from "../../../utils/error";
 
 export function transformConfiguration(
   flattenedSchema: Record<string, SchemaDescription>,

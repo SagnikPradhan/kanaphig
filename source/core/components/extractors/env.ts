@@ -1,4 +1,4 @@
-import { SchemaDescription } from "../types/core";
+import { SchemaDescription } from "../schema/type";
 
 export function extractEnv(flattenedSchema: Record<string, SchemaDescription>) {
   try {
@@ -11,8 +11,18 @@ export function extractEnv(flattenedSchema: Record<string, SchemaDescription>) {
       Object.entries(flattenedSchema).map(([key, value]) => {
         if (typeof value === "function") return [key, undefined];
         else if (typeof value.env === "undefined") return [key, undefined];
-        else return [key, process.env[value.env]];
+        else return [key, tryParsing(process.env[value.env])];
       })
     );
   }
+}
+
+function tryParsing(value: string | undefined) {
+  if (value === undefined) return value;
+  else
+    try {
+      return JSON.parse(value);
+    } catch {
+      return value;
+    }
 }
