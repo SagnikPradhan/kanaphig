@@ -1,5 +1,4 @@
 import { kanaphig, kzod } from "kanaphig";
-
 import { z } from "zod";
 
 export const config = kanaphig({
@@ -24,5 +23,5 @@ export const config = kanaphig({
     },
   },
 
-  configurationFile: "./config/config.yml",
+  configurationFile: "./config.yml",
 });

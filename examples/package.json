@@ -1,8 +1,8 @@
 {
-  "name": "example",
+  "name": "examples",
   "private": true,
   "scripts": {
-    "start": "ts-node ./source/index.ts"
+    "gen-env": "yarn dlx gen-env-types -o .env.d.ts -e ."
   },
   "dependencies": {
     "kanaphig": "workspace:.",
